@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SIMS.Services;
+using SIMS_App.Data;
+using SIMS_App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddSession();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpContextAccessor();
+// Đăng ký IUserService
+builder.Services.AddScoped<IUserService, UserService>();
+// Đăng ký IDataService
+builder.Services.AddScoped<IDataService, DataService>();
+
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -25,15 +33,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
-// 🔥 Đặt trang đăng nhập làm mặc định khi mở ứng dụng
+
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Auth}/{action=Login}/{id?}");
+});
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Auth}/{action=Login}/{id?}"); // 👈 Mặc định vào trang Login
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
 app.Run();
+
 
 
 
