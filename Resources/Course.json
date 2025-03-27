@@ -1,0 +1,42 @@
+[
+  {
+    "CourseId": 1,
+    "Name": "Databse",
+    "Description": null,
+    "TotalStudents": 0,
+    "StartDate": "0001-01-01T00:00:00",
+    "EndDate": "0001-01-01T00:00:00",
+    "NumberOfSessions": 0,
+    "Classes": []
+  },
+  {
+    "CourseId": 2,
+    "Name": "Physics",
+    "Description": null,
+    "TotalStudents": 25,
+    "StartDate": "2025-02-01T00:00:00",
+    "EndDate": "2025-10-31T00:00:00",
+    "NumberOfSessions": 15,
+    "Classes": []
+  },
+  {
+    "CourseId": 3,
+    "Name": "App Android",
+    "Description": null,
+    "TotalStudents": 0,
+    "StartDate": "0001-01-01T00:00:00",
+    "EndDate": "0001-01-01T00:00:00",
+    "NumberOfSessions": 0,
+    "Classes": []
+  },
+  {
+    "CourseId": 4,
+    "Name": "SDLC",
+    "Description": null,
+    "TotalStudents": 30,
+    "StartDate": "2024-02-01T00:00:00",
+    "EndDate": "2024-03-02T00:00:00",
+    "NumberOfSessions": 30,
+    "Classes": []
+  }
+]

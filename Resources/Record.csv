@@ -1,0 +1,9 @@
+﻿StudentId,StudentName,ClassId,IsPresent
+1,Alice,0,True
+2,Bob,0,False
+1,Alice,0,False
+4,Eva Adams,0,False
+4,Eva Adams,0,True
+5,David Brown,0,True
+6,Michael Scott,0,False
+7,Jessica Miller,0,True

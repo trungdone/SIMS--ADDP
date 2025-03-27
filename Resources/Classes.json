@@ -1,0 +1,162 @@
+[
+  {
+    "Id": 2,
+    "ClassId": 2,
+    "Name": "Efootball26",
+    "CourseId": 13,
+    "Students": [
+      {
+        "Id": 3,
+        "UserId": 3,
+        "Username": "bob_johnson",
+        "Password": "hashed_password",
+        "Name": "Bob Johnson",
+        "Email": "bob@example.com",
+        "Phone": "",
+        "DateOfBirth": "2004-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 3
+  },
+  {
+    "Id": 3,
+    "ClassId": 3,
+    "Name": "SE06304",
+    "CourseId": 9,
+    "Students": [
+      {
+        "Id": 4,
+        "UserId": 4,
+        "Username": "eva_adams",
+        "Password": "hashed_password",
+        "Name": "Eva Adams",
+        "Email": "eva@example.com",
+        "Phone": "",
+        "DateOfBirth": "2001-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 4
+  },
+  {
+    "Id": 4,
+    "ClassId": 4,
+    "Name": "Biology 106",
+    "CourseId": 2,
+    "Students": [
+      {
+        "Id": 5,
+        "UserId": 5,
+        "Username": "david_brown",
+        "Password": "hashed_password",
+        "Name": "David Brown",
+        "Email": "david@example.com",
+        "Phone": "",
+        "DateOfBirth": "2004-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 5
+  },
+  {
+    "Id": 5,
+    "ClassId": 5,
+    "Name": "Physics 201",
+    "CourseId": 3,
+    "Students": [
+      {
+        "Id": 6,
+        "UserId": 6,
+        "Username": "michael_scott",
+        "Password": "hashed_password",
+        "Name": "Michael Scott",
+        "Email": "michael@example.com",
+        "Phone": "",
+        "DateOfBirth": "2001-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 6
+  },
+  {
+    "Id": 6,
+    "ClassId": 6,
+    "Name": "Chemistry 301",
+    "CourseId": 4,
+    "Students": [
+      {
+        "Id": 7,
+        "UserId": 7,
+        "Username": "jessica_miller",
+        "Password": "hashed_password",
+        "Name": "Jessica Miller",
+        "Email": "jessica@example.com",
+        "Phone": "",
+        "DateOfBirth": "2002-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 7
+  },
+  {
+    "Id": 7,
+    "ClassId": 7,
+    "Name": "Mathematics 401",
+    "CourseId": 5,
+    "Students": [
+      {
+        "Id": 8,
+        "UserId": 8,
+        "Username": "daniel_wilson",
+        "Password": "hashed_password",
+        "Name": "Daniel Wilson",
+        "Email": "daniel@example.com",
+        "Phone": "",
+        "DateOfBirth": "2000-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 8
+  },
+  {
+    "Id": 8,
+    "ClassId": 8,
+    "Name": "Computer Science 501",
+    "CourseId": 6,
+    "Students": [
+      {
+        "Id": 9,
+        "UserId": 9,
+        "Username": "sarah_lee",
+        "Password": "hashed_password",
+        "Name": "Sarah Lee",
+        "Email": "sarah@example.com",
+        "Phone": "",
+        "DateOfBirth": "2004-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 9
+  },
+  {
+    "Id": 9,
+    "ClassId": 9,
+    "Name": "History 601",
+    "CourseId": 7,
+    "Students": [
+      {
+        "Id": 10,
+        "UserId": 10,
+        "Username": "james_white",
+        "Password": "hashed_password",
+        "Name": "James White",
+        "Email": "james@example.com",
+        "Phone": "",
+        "DateOfBirth": "2001-01-01T00:00:00",
+        "Role": "Student"
+      }
+    ],
+    "StudentId": 10
+  }
+]

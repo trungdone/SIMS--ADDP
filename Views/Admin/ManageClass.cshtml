@@ -1,0 +1,195 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<SIMS_App.Models.Class>
+
+@{
+    ViewData["Title"] = "Class Management";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+
+    h2, h3 {
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+    }
+
+    button {
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    .edit-btn {
+        background: #28a745;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .view-btn {
+        background: #17a2b8;
+        color: white;
+    }
+
+    input {
+        padding: 8px;
+        margin: 5px 0;
+        width: 200px;
+    }
+
+    #editForm, #studentsList {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<h2>Class Management</h2>
+
+<table id="classTable">
+    <tr>
+        <th>ID</th>
+        <th>Class Name</th>
+        <th>Course ID</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var cls in Model)
+    {
+        <tr>
+            <td>@cls.Id</td>
+            <td>@cls.Name</td>
+            <td>@cls.CourseId</td>
+            <td>
+                <button class="edit-btn" onclick="editClass(@cls.Id, '@cls.Name', @cls.CourseId)">Edit</button>
+                <button class="delete-btn" onclick="deleteClass(@cls.Id)">Delete</button>
+                <button class="view-btn" onclick="viewStudents(@cls.Id)">View Students</button>
+
+
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Add New Class</h3>
+<input type="text" id="className" placeholder="Class Name">
+<input type="number" id="courseId" placeholder="Course ID">
+<button onclick="addClass()">Add</button>
+
+<div id="editForm" style="display: none;">
+    <h3>Edit Class</h3>
+    <input type="hidden" id="editClassId">
+    <input type="text" id="editClassName" placeholder="Class Name">
+    <input type="number" id="editCourseId" placeholder="Course ID">
+    <button onclick="updateClass()">Save</button>
+</div>
+
+<div id="studentsList" style="display: none;">
+    <h3>Student List</h3>
+    <ul id="students"></ul>
+</div>
+
+
+<!-- jQuery AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function addClass() {
+        var name = $("#className").val();
+        var courseId = $("#courseId").val();
+
+        $.post("/Class/AddClass", { name: name, courseId: courseId }, function (data) {
+            alert(data.message);
+            location.reload();
+        });
+    }
+
+    function editClass(id, name, courseId) {
+        $("#editClassId").val(id);
+        $("#editClassName").val(name);
+        $("#editCourseId").val(courseId);
+        $("#editForm").show();
+    }
+
+    function updateClass() {
+        var id = $("#editClassId").val();
+        var name = $("#editClassName").val();
+        var courseId = $("#editCourseId").val();
+
+        $.post("/Class/Edit", { id: id, name: name, courseId: courseId }, function (data) {
+            alert(data.message);
+            location.reload();
+        });
+    }
+
+    function deleteClass(id) {
+        if (confirm("Are you sure you want to delete this class?")) {
+            $.post("/Class/DeleteClass", { id: id }, function (data) {
+                alert(data.message);
+                location.reload();
+            });
+        }
+    }
+
+    function viewStudents(classId) {
+        console.log("Fetching students for class ID: " + classId);
+
+        $.ajax({
+            url: '/Class/ViewStudents',
+            type: 'GET',
+            data: { id: classId },
+            success: function (response) {
+                console.log("Response:", response); // Debug API response
+                if (response.success) {
+                    let studentList = "<h3>Students in Class " + classId + "</h3><ul>";
+                    response.students.forEach(student => {
+                        studentList += "<li>" + student.Name + " (" + student.Email + ")</li>";
+                    });
+                    studentList += "</ul>";
+                    $('#studentsList').html(studentList);
+                } else {
+                    $('#studentsList').html("<p>" + response.message + "</p>");
+                }
+            },
+            error: function () {
+                console.log("Error fetching students."); // Debug lỗi nếu có
+                $('#studentsList').html("<p>Error fetching students.</p>");
+            }
+        });
+    }
+
+
+</script>
+
+

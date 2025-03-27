@@ -1,0 +1,166 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<SIMS_App.Models.Course>
+
+@{
+    ViewData["Title"] = "Manage Courses";
+}
+
+<div class="container">
+    <h2 class="text-center">Manage Courses</h2>
+
+    <input type="text" id="courseName" placeholder="Course Name">
+    <input type="date" id="startDate">
+    <input type="date" id="endDate">
+    <input type="number" id="totalStudents" placeholder="Total Students">
+    <input type="number" id="sessions" placeholder="Number of Sessions">
+    <button class="btn btn-success" onclick="addCourse()">Add Course</button>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Total Students</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Sessions</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="courseTable">
+            @foreach (var course in Model)
+            {
+                <tr id="course_@course.CourseId">
+                    <td>@course.CourseId</td>
+                    <td>@course.Name</td>
+                    <td>@course.TotalStudents</td>
+                    <td>@course.StartDate.ToString("dd/MM/yyyy")</td>
+                    <td>@course.EndDate.ToString("dd/MM/yyyy")</td>
+                    <td>@course.NumberOfSessions</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="editCourse(@course.CourseId, '@course.Name')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteCourse(@course.CourseId)">Delete</button>
+                        <button class="btn btn-info" onclick="viewStudents(@course.CourseId)">View Students</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="studentsList" style="display: none;">
+    <h3>Student List</h3>
+    <ul id="students"></ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function addCourse() {
+        var name = $("#courseName").val();
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        var totalStudents = parseInt($("#totalStudents").val());
+        var sessions = parseInt($("#sessions").val());
+
+        if (!name || !startDate || !endDate || isNaN(totalStudents) || isNaN(sessions)) {
+            alert("Please fill in all fields correctly.");
+            return;
+        }
+
+        var course = {
+            Name: name,
+            StartDate: startDate,
+            EndDate: endDate,
+            TotalStudents: totalStudents,
+            NumberOfSessions: sessions
+        };
+
+        $.ajax({
+            url: "/Courses/AddCourse",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(course),
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    location.reload();
+                } else {
+                    alert("Failed to add course.");
+                }
+            },
+            error: function () {
+                alert("Error adding course.");
+            }
+        });
+    }
+
+
+    function editCourse(courseId, oldName) {
+        var newName = prompt("Enter new course name:", oldName);
+        if (newName) {
+            var course = { CourseId: courseId, Name: newName };
+
+            $.ajax({
+                url: "/Courses/UpdateCourse",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(course),
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert("Failed to update course.");
+                    }
+                },
+                error: function () {
+                    alert("Error updating course.");
+                }
+            });
+        }
+    }
+
+
+    function deleteCourse(courseId) {
+        if (confirm("Are you sure you want to delete this course?")) {
+            $.ajax({
+                url: "/Course/DeleteCourse?id=" + courseId,
+                type: "DELETE",
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                }
+            });
+        }
+    }
+
+    function viewStudents(courseId) {
+        $.ajax({
+            url: '/Courses/ViewStudents',
+            type: 'GET',
+            data: { id: courseId },
+            success: function (response) {
+                console.log(response); // Debug xem API trả về gì
+
+                if (response.success && Array.isArray(response.students)) {
+                    let studentList = "<h3>Students in Course " + courseId + "</h3><ul>";
+                    response.students.forEach(student => {
+                        studentList += "<li>" + student.Name + " (" + student.Email + ")</li>";
+                    });
+                    studentList += "</ul>";
+                    $('#studentsList').html(studentList).show();
+                } else {
+                    $('#studentsList').html("<p>No students found for this course.</p>").show();
+                }
+            },
+            error: function () {
+                $('#studentsList').html("<p>Error fetching students.</p>").show();
+            }
+        });
+    }
+
+
+</script>

@@ -1,0 +1,68 @@
+[
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "admin",
+    "Password": "123",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Admin"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "user1",
+    "Password": "password123",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "User"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "kaka",
+    "Password": "12",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Student"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "Do trung",
+    "Password": "42",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Student"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "Phuong Thao",
+    "Password": "65",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Admin"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "ĐỖ NGỌC TRUNG",
+    "Password": "123",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Admin"
+  }
+]
