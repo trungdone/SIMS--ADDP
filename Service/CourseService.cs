@@ -17,6 +17,7 @@ namespace SIMS_App.Services
             LoadCourses();
         }
 
+
         private void LoadCourses()
         {
             try
@@ -49,7 +50,6 @@ namespace SIMS_App.Services
                 courses = new List<Course>(); // Khởi tạo danh sách rỗng nếu có lỗi
             }
         }
-
 
         private void SaveCourses()
         {
@@ -104,39 +104,59 @@ namespace SIMS_App.Services
             }
         }
 
-        public List<Student> GetStudentsByCourseId(int courseId)
+        public List<Student> GetStudentsByClassId(int classId)
         {
             var students = new List<Student>();
             string filePath = "Resources/Student.CSV";
 
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("Student file not found.");
+                Console.WriteLine("⚠ Student file not found.");
                 return students;
             }
 
             var lines = File.ReadAllLines(filePath);
-            foreach (var line in lines.Skip(1))
+            Console.WriteLine($"📌 Total lines in CSV: {lines.Length}");
+
+            // Bỏ qua dòng header nếu có
+            var startLine = lines[0].StartsWith("StudentId,Name,Age,Email,ClassId") ? 1 : 0;
+
+            for (int i = startLine; i < lines.Length; i++)
             {
+                var line = lines[i];
+                if (string.IsNullOrWhiteSpace(line)) continue;
+
                 var data = line.Split(',');
-                if (data.Length >= 5 && int.TryParse(data[4], out int classId) && classId == courseId)
+                if (data.Length < 5)
                 {
-                    students.Add(new Student
+                    Console.WriteLine($"⚠ Invalid data format in line {i + 1}: {line}");
+                    continue;
+                }
+
+                try
+                {
+                    if (!int.TryParse(data[4], out int studentClassId) || studentClassId != classId)
+                        continue;
+
+                    var student = new Student
                     {
                         StudentId = int.Parse(data[0]),
-                        Name = data[1],
+                        Name = data[1].Trim(),
                         Age = int.Parse(data[2]),
-                        Email = data[3],
-                        ClassId = classId
-                    });
+                        Email = data[3].Trim(),
+                        ClassId = studentClassId
+                    };
+                    students.Add(student);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"⚠ Error processing line {i + 1}: {ex.Message}");
                 }
             }
 
-            Console.WriteLine($"Total students found: {students.Count}"); // Debug số lượng sinh viên
+            Console.WriteLine($"📌 Found {students.Count} students for class {classId}");
             return students;
         }
-
-
 
     }
 }

@@ -20,12 +20,44 @@ namespace SIMS_App.Controllers
             return View("~/Views/Admin/ManageClass.cshtml", classes);
         }
 
+        [HttpGet]
+        public IActionResult ViewClass()
+        {
+            var classes = _dataService.GetClasses();
+            return View("~/Views/Student/ViewClass.cshtml", classes);
+        }
+
+
+
         [HttpPost]
         public JsonResult AddClass(string name, int courseId)
         {
-            var newClass = new Class { Name = name, CourseId = courseId };
-            _dataService.AddClass(newClass);
-            return Json(new { success = true, message = "Class added successfully!" });
+            try
+            {
+                var newClass = new Class
+                {
+                    Name = name,
+                    CourseId = courseId
+                    // Không cần gán Id vì đã được xử lý trong DataService
+                };
+
+                _dataService.AddClass(newClass);
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Class added successfully!",
+                    newClassId = newClass.Id // Trả về ID mới tạo
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = $"Error adding class: {ex.Message}"
+                });
+            }
         }
 
         [HttpPost]
@@ -49,28 +81,35 @@ namespace SIMS_App.Controllers
             return Json(new { success = true, message = "Class deleted successfully!" });
         }
 
-
         [HttpGet]
-
         public JsonResult ViewStudents(int id)
         {
-            Console.WriteLine($"Received Class ID: {id}"); // Debug ID nhận vào
+            Console.WriteLine($"Received Class ID: {id}");
 
-            if (id <= 0)
-                return Json(new { success = false, message = "Invalid Class ID!" });
+            try
+            {
+                var students = _dataService.GetStudentsByClassId(id);
 
-            var classItem = _dataService.GetClassById(id);
-            if (classItem == null)
-                return Json(new { success = false, message = "Class not found!" });
+                if (students == null || !students.Any())
+                {
+                    return Json(new { success = false, message = "No students found in this class!" });
+                }
 
-            var students = _dataService.GetStudentsByClassId(id)
-                .Select(s => new { s.StudentId, s.Name, s.Age, s.Email })
-                .ToList();
-
-            if (students == null || !students.Any())
-                return Json(new { success = false, message = "No students found in this class!" });
-
-            return Json(new { success = true, students });
+                return Json(new
+                {
+                    success = true,
+                    students = students.Select(s => new {
+                        id = s.StudentId,
+                        name = s.Name,
+                        email = s.Email
+                    }).ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return Json(new { success = false, message = "Error fetching students!" });
+            }
         }
 
 

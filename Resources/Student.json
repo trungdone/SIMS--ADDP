@@ -26,10 +26,10 @@
     "UserId": 0,
     "Username": null,
     "Password": null,
-    "Name": "Hung",
+    "Name": "Trung",
     "Email": "thao@gmail.com",
     "Phone": "12345678",
-    "DateOfBirth": "2004-08-05T00:00:00",
+    "DateOfBirth": "2004-04-02T00:00:00",
     "Role": null
   },
   {
@@ -41,6 +41,17 @@
     "Email": "chientrienchiu@gmail.com",
     "Phone": "32788889",
     "DateOfBirth": "2004-03-02T00:00:00",
+    "Role": null
+  },
+  {
+    "Id": 5,
+    "UserId": 0,
+    "Username": null,
+    "Password": null,
+    "Name": "nam",
+    "Email": "nam@gmail.com",
+    "Phone": "646474848",
+    "DateOfBirth": "2004-02-05T00:00:00",
     "Role": null
   }
 ]

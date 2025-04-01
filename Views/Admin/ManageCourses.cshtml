@@ -8,7 +8,25 @@
     ViewData["Title"] = "Manage Courses";
 }
 
+<style>
+    #studentsList {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 5px;
+    }
+
+        #studentsList table {
+            margin-top: 10px;
+        }
+
+    .alert {
+        margin-top: 20px;
+    }
+</style>
+
 <div class="container">
+    <div id="studentsList" style="display: none;"></div>
     <h2 class="text-center">Manage Courses</h2>
 
     <input type="text" id="courseName" placeholder="Course Name">
@@ -43,7 +61,8 @@
                     <td>
                         <button class="btn btn-primary" onclick="editCourse(@course.CourseId, '@course.Name')">Edit</button>
                         <button class="btn btn-danger" onclick="deleteCourse(@course.CourseId)">Delete</button>
-                        <button class="btn btn-info" onclick="viewStudents(@course.CourseId)">View Students</button>
+                        <button class="btn btn-info" onclick="viewStudents(@Convert.ToInt32(course.CourseId))">View Students</button>
+
                     </td>
                 </tr>
             }
@@ -137,30 +156,46 @@
         }
     }
 
-    function viewStudents(courseId) {
+    function viewStudents(classId) {
+        console.log(`📌 Fetching students for class ID: ${classId}`);
+
         $.ajax({
             url: '/Courses/ViewStudents',
             type: 'GET',
-            data: { id: courseId },
+            data: { id: classId },
             success: function (response) {
-                console.log(response); // Debug xem API trả về gì
+                console.log("📌 Full response received:", response);
 
                 if (response.success && Array.isArray(response.students)) {
-                    let studentList = "<h3>Students in Course " + courseId + "</h3><ul>";
+                    let studentList = `<h3>Students in Class ${classId}</h3>
+                                    <table class="table table-bordered">
+                                    <thead><tr><th>ID</th><th>Name</th><th>Email</th></tr></thead>
+                                    <tbody>`;
+
                     response.students.forEach(student => {
-                        studentList += "<li>" + student.Name + " (" + student.Email + ")</li>";
+                        console.log("✅ Student Object:", student);
+                        studentList += `
+                            <tr>
+                                <td>${student.id || 'N/A'}</td>
+                                <td>${student.name || 'N/A'}</td>
+                                <td>${student.email || 'N/A'}</td>
+                            </tr>`;
                     });
-                    studentList += "</ul>";
+
+                    studentList += "</tbody></table>";
+
+                    // Hiển thị danh sách
                     $('#studentsList').html(studentList).show();
                 } else {
-                    $('#studentsList').html("<p>No students found for this course.</p>").show();
+                    console.error("⚠ No students found or invalid response", response);
+                    $('#studentsList').html("<div class='alert alert-warning'>No students found for this class.</div>").show();
                 }
             },
-            error: function () {
-                $('#studentsList').html("<p>Error fetching students.</p>").show();
+            error: function (xhr, status, error) {
+                console.error(`⚠ AJAX Error - ${status}: ${error}`);
+                $('#studentsList').html("<div class='alert alert-danger'>Error fetching students. Please try again.</div>").show();
             }
         });
     }
-
 
 </script>

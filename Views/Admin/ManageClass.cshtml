@@ -75,6 +75,47 @@
         background: white;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
+
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .student-table th,
+    .student-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .student-table th {
+        background-color: #f2f2f2;
+    }
+
+    .alert {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    #studentsList {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
 </style>
 
 <h2>Class Management</h2>
@@ -129,9 +170,47 @@
         var name = $("#className").val();
         var courseId = $("#courseId").val();
 
-        $.post("/Class/AddClass", { name: name, courseId: courseId }, function (data) {
-            alert(data.message);
-            location.reload();
+        if (!name || !courseId) {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        $.ajax({
+            url: "/Class/AddClass",
+            type: "POST",
+            data: {
+                name: name,
+                courseId: courseId
+            },
+            success: function (response) {
+                console.log("Add Class Response:", response);
+                if (response.success) {
+                    alert(response.message);
+                    // Thêm dòng mới vào bảng mà không cần reload
+                    var newRow = `
+                        <tr>
+                            <td>${response.newClassId}</td>
+                            <td>${name}</td>
+                            <td>${courseId}</td>
+                            <td>
+                                <button class="edit-btn" onclick="editClass(${response.newClassId}, '${name}', ${courseId})">Edit</button>
+                                <button class="delete-btn" onclick="deleteClass(${response.newClassId})">Delete</button>
+                                <button class="view-btn" onclick="viewStudents(${response.newClassId})">View Students</button>
+                            </td>
+                        </tr>`;
+                    $("#classTable").append(newRow);
+
+                    // Reset form
+                    $("#className").val("");
+                    $("#courseId").val("");
+                } else {
+                    alert("Error: " + response.message);
+                }
+            },
+            error: function (xhr) {
+                console.error("Error:", xhr);
+                alert("Error adding class. Please check console for details.");
+            }
         });
     }
 
@@ -170,21 +249,48 @@
             type: 'GET',
             data: { id: classId },
             success: function (response) {
-                console.log("Response:", response); // Debug API response
-                if (response.success) {
-                    let studentList = "<h3>Students in Class " + classId + "</h3><ul>";
+                console.log("Full response:", response);
+
+                if (response.success && Array.isArray(response.students)) {
+                    let studentList = `
+                        <h3>Students in Class ${classId}</h3>
+                        <table class="student-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+
                     response.students.forEach(student => {
-                        studentList += "<li>" + student.Name + " (" + student.Email + ")</li>";
+                        console.log("Student data:", student);
+                        studentList += `
+                            <tr>
+                                <td>${student.id || 'N/A'}</td>
+                                <td>${student.name || 'N/A'}</td>
+                                <td>${student.email || 'N/A'}</td>
+                            </tr>`;
                     });
-                    studentList += "</ul>";
-                    $('#studentsList').html(studentList);
+
+                    studentList += `</tbody></table>`;
+                    $('#studentsList').html(studentList).show();
                 } else {
-                    $('#studentsList').html("<p>" + response.message + "</p>");
+                    $('#studentsList').html(`
+                        <div class="alert alert-warning">
+                            ${response.message || 'No students found'}
+                        </div>
+                    `).show();
                 }
             },
-            error: function () {
-                console.log("Error fetching students."); // Debug lỗi nếu có
-                $('#studentsList').html("<p>Error fetching students.</p>");
+            error: function (xhr) {
+                console.error("Error:", xhr);
+                $('#studentsList').html(`
+                    <div class="alert alert-danger">
+                        Error loading students. Please try again.
+                    </div>
+                `).show();
             }
         });
     }

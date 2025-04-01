@@ -19,5 +19,7 @@ namespace SIMS_App.Data
         string GetStudentName(int studentId);
 
         List<Student> GetStudentsByClassId(int classId);
+
+
     }
 }

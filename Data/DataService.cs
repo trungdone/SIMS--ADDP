@@ -38,40 +38,36 @@ namespace SIMS_App.Data
         public List<Student> GetStudentsByClassId(int classId)
         {
             var students = new List<Student>();
+            string filePath = "Resources/Student.CSV";
 
-            using (var reader = new StreamReader("Resources/Student.CSV"))
+            if (!File.Exists(filePath))
             {
-                while (!reader.EndOfStream)
+                Console.WriteLine("Student file not found.");
+                return students;
+            }
+
+            var lines = File.ReadAllLines(filePath);
+            foreach (var line in lines.Skip(1))
+            {
+                var data = line.Split(',');
+                if (data.Length >= 5 && int.TryParse(data[4], out int studentClassId) && studentClassId == classId)
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-
-                    // Bỏ qua dòng tiêu đề
-                    if (!int.TryParse(values[0], out int studentId))
+                    students.Add(new Student
                     {
-                        continue;
-                    }
-
-                    var student = new Student
-                    {
-                        StudentId = int.Parse(values[0]),
-                        Name = values[1],
-                        Age = int.Parse(values[2]),
-                        Email = values[3],
-                        ClassId = string.IsNullOrEmpty(values[4]) || values[4] == "0" ? null : int.Parse(values[4])
-                    };
-
-
-                    if (student.ClassId == classId)
-                    {
-                        students.Add(student);
-                    }
+                        StudentId = int.Parse(data[0]),
+                        Name = data[1],
+                        Age = int.Parse(data[2]),
+                        Email = data[3],
+                        ClassId = studentClassId
+                    });
                 }
             }
 
-
-            return students.Count > 0 ? students : new List<Student>();
+            Console.WriteLine($"Total students found in class {classId}: {students.Count}");
+            return students;
         }
+
+
 
         private void SaveClasses()
         {
@@ -86,7 +82,13 @@ namespace SIMS_App.Data
         }
 
         public List<Course> GetCourses() => courses;
-        public Course GetCourseById(int courseId) => courses.FirstOrDefault(c => c.CourseId == courseId);
+        public Course GetCourseById(int courseId)
+        {
+            Console.WriteLine($"\n🔍 Đang tìm khóa học với CourseId: {courseId}");
+            var result = courses.FirstOrDefault(c => c.CourseId == courseId);
+            Console.WriteLine($"Kết quả: {(result != null ? $"Tìm thấy: {result.Name}" : "Không tìm thấy")}");
+            return result;
+        }
 
         public void AddCourse(Course course)
         {
@@ -119,17 +121,30 @@ namespace SIMS_App.Data
         public List<Class> GetClasses() => classes;
         public Class GetClassById(int classId)
         {
-            return classes.FirstOrDefault(c => c.Id == classId); // Đổi ClassId thành Id
+            Console.WriteLine($"\n🔍 Đang tìm lớp với ClassId: {classId}");
+            var result = classes.FirstOrDefault(c => c.Id == classId);
+            Console.WriteLine($"Kết quả: {(result != null ? $"Tìm thấy: {result.Name}" : "Không tìm thấy")}");
+            return result;
         }
 
 
-        public void AddClass(Class cls)
+        public void AddClass(Class newClass)
         {
-            // Nếu danh sách rỗng, ID bắt đầu từ 1
-            int newId = classes.Any() ? classes.Max(c => c.Id) + 1 : 1;
-            cls.Id = newId;
-            classes.Add(cls);
+            newClass.Id = classes.Any() ? classes.Max(c => c.Id) + 1 : 1;
+
+            // Lấy danh sách tất cả học sinh để tìm ID lớn nhất
+            int maxStudentId = classes.SelectMany(c => c.Students).Any()
+                ? classes.SelectMany(c => c.Students).Max(s => s.Id)
+                : 0;
+
+            // Cập nhật StudentId mới dựa trên ID cao nhất hiện có
+            newClass.StudentId = maxStudentId + 1;
+
+            classes.Add(newClass);
+            SaveClasses();
         }
+
+
 
 
         public void UpdateClass(Class cls)
@@ -200,6 +215,24 @@ namespace SIMS_App.Data
                     observer.UpdateAttendance(record);
                 }
             }
+        }
+
+        public string GetStudentName(int studentId)
+        {
+            // Đọc từ file Student.CSV thay vì từ classes
+            string filePath = "Resources/Student.CSV";
+            if (!File.Exists(filePath)) return string.Empty;
+
+            var lines = File.ReadAllLines(filePath);
+            foreach (var line in lines.Skip(1))
+            {
+                var data = line.Split(',');
+                if (data.Length >= 5 && int.TryParse(data[0], out int csvStudentId) && csvStudentId == studentId)
+                {
+                    return data[1]; // Trả về tên student
+                }
+            }
+            return string.Empty;
         }
     }
 }

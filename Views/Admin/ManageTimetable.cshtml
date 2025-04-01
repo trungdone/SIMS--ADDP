@@ -1,0 +1,235 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<SIMS_App.Models.Timetable>
+
+<h2>Manage Timetable</h2>
+
+<!-- Nút thêm thời khóa biểu -->
+<button class="btn btn-primary mb-3" onclick="showAddTimetableForm()">Add Timetable</button>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Teacher</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="timetableTable">
+        @foreach (var timetable in Model)
+        {
+            <tr>
+                <td>@timetable.StudentName</td>
+                <td>@timetable.Subject</td>
+                <td>@timetable.ClassName</td>
+                <td>@timetable.TeacherName</td>
+                <td>@timetable.StartTime</td>
+                <td>@timetable.EndTime</td>
+                <td>
+                    <button class="btn btn-warning" onclick="editTimetable('@timetable.Id', '@timetable.StudentName', '@timetable.Subject', '@timetable.ClassName', '@timetable.TeacherName', '@timetable.StartTime', '@timetable.EndTime')">Edit</button>
+                    <button class="btn btn-danger" onclick="deleteTimetable(@Convert.ToInt32(timetable.Id))">Delete</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal nhập/sửa thời khóa biểu -->
+<div id="timetableFormModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h4 id="formTitle">Add Timetable</h4>
+        <input type="hidden" id="timetableId">
+
+        <label>Student Name:</label>
+        <input type="text" id="studentName" class="form-control">
+        <span class="error-text" id="errorStudentName"></span>
+
+        <label>Subject:</label>
+        <input type="text" id="subject" class="form-control">
+        <span class="error-text" id="errorSubject"></span>
+
+        <label>Class:</label>
+        <input type="text" id="className" class="form-control">
+        <span class="error-text" id="errorClassName"></span>
+
+        <label>Teacher:</label>
+        <input type="text" id="teacherName" class="form-control">
+        <span class="error-text" id="errorTeacherName"></span>
+
+        <label>Start Time:</label>
+        <input type="datetime-local" id="startTime" class="form-control">
+        <span class="error-text" id="errorStartTime"></span>
+
+        <label>End Time:</label>
+        <input type="datetime-local" id="endTime" class="form-control">
+        <span class="error-text" id="errorEndTime"></span>
+
+        <button onclick="saveTimetable()" class="btn btn-success mt-2">Save</button>
+        <button onclick="closeModal()" class="btn btn-secondary mt-2">Cancel</button>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        border-radius: 5px;
+    }
+
+    .error-text {
+        color: red;
+        font-size: 12px;
+        display: block;
+        margin-top: 5px;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function showAddTimetableForm() {
+        $("#formTitle").text("Add Timetable");
+        $("#timetableId").val("");
+        $("#studentName").val("");
+        $("#subject").val("");
+        $("#className").val("");
+        $("#teacherName").val("");
+        $("#startTime").val("");
+        $("#endTime").val("");
+        $("#timetableFormModal").show();
+    }
+
+    function editTimetable(id, name, subject, className, teacher, start, end) {
+        $("#formTitle").text("Edit Timetable");
+        $("#timetableId").val(id);
+        $("#studentName").val(name);
+        $("#subject").val(subject);
+        $("#className").val(className);
+        $("#teacherName").val(teacher);
+
+        // Format lại thời gian cho phù hợp với datetime-local
+        const today = new Date().toISOString().split('T')[0];
+        $("#startTime").val(start ? `${today}T${start}` : "");
+        $("#endTime").val(end ? `${today}T${end}` : "");
+
+        $("#timetableFormModal").show();
+    }
+
+    function saveTimetable() {
+        $(".error-text").text(""); // Reset lỗi trước khi kiểm tra
+        let isValid = true;
+
+        // Lấy giá trị thời gian và kiểm tra hợp lệ
+        const startTimeVal = $("#startTime").val();
+        const endTimeVal = $("#endTime").val();
+
+        if (!startTimeVal) {
+            $("#errorStartTime").text("Start time is required!");
+            isValid = false;
+        }
+
+        if (!endTimeVal) {
+            $("#errorEndTime").text("End time is required!");
+            isValid = false;
+        }
+
+        const timetable = {
+            id: $("#timetableId").val() || 0,
+            studentName: $("#studentName").val().trim(),
+            subject: $("#subject").val().trim(),
+            className: $("#className").val().trim(),
+            teacherName: $("#teacherName").val().trim(),
+            startTime: startTimeVal,
+            endTime: endTimeVal
+        };
+
+        // Kiểm tra các trường bắt buộc
+        if (timetable.studentName === "") {
+            $("#errorStudentName").text("Student name is required!");
+            isValid = false;
+        }
+        if (timetable.subject === "") {
+            $("#errorSubject").text("Subject is required!");
+            isValid = false;
+        }
+        if (timetable.className === "") {
+            $("#errorClassName").text("Class name is required!");
+            isValid = false;
+        }
+        if (timetable.teacherName === "") {
+            $("#errorTeacherName").text("Teacher name is required!");
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        const url = timetable.id ? "/Timetable/UpdateTimetable" : "/Timetable/AddTimetable";
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(timetable),
+            success: function (response) {
+                alert(response.message);
+                if (response.success) location.reload();
+            },
+            error: function (xhr) {
+                alert("Error while saving timetable!");
+                console.error("Error details:", xhr);
+            }
+        });
+    }
+
+    function closeModal() {
+        $("#timetableFormModal").hide();
+    }
+
+    function deleteTimetable(id) {
+        console.log("Deleting ID:", id); // Debug ID trước khi gửi
+
+        if (confirm("Are you sure you want to delete this timetable?")) {
+            $.ajax({
+                url: "/Timetable/DeleteTimetable",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ id: parseInt(id) }), // Chắc chắn ID là số nguyên
+                success: function (response) {
+                    console.log("Response:", response);
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr) {
+                    alert("Error while deleting timetable!");
+                    console.error("Error details:", xhr);
+                }
+            });
+        }
+    }
+
+
+
+</script>

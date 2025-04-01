@@ -64,5 +64,16 @@
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
     "Role": "Admin"
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "Huy",
+    "Password": "123",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Teacher"
   }
 ]

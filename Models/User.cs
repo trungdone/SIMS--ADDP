@@ -11,6 +11,9 @@
         public string Phone { get; set; }    // Số điện thoại
         public DateTime DateOfBirth { get; set; } // Ngày sinh
         public string Role { get; set; }     // Vai trò (Admin, User, etc.)
+
+        // Hoặc thêm mới nếu cần tách biệt
+        public int StudentId { get; set; }
     }
 
 }

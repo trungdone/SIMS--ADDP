@@ -1,0 +1,50 @@
+[
+  {
+    "StudentId": 1,
+    "StudentName": "Theo",
+    "Subject": "History",
+    "ClassName": "SE06304",
+    "Score": 100,
+    "Type": "Good"
+  },
+  {
+    "StudentId": 2,
+    "StudentName": "Thao",
+    "Subject": "History",
+    "ClassName": "SE06304",
+    "Score": 90,
+    "Type": "Good"
+  },
+  {
+    "StudentId": 4,
+    "StudentName": "Huy",
+    "Subject": "SDLC",
+    "ClassName": "SE06301",
+    "Score": 90,
+    "Type": "Quizz"
+  },
+  {
+    "StudentId": 6,
+    "StudentName": "trung",
+    "Subject": "programing",
+    "ClassName": "SE06200",
+    "Score": 95,
+    "Type": "ASM"
+  },
+  {
+    "StudentId": 7,
+    "StudentName": "Chien",
+    "Subject": "Math",
+    "ClassName": "SE06203",
+    "Score": 95,
+    "Type": "ASm2"
+  },
+  {
+    "StudentId": 8,
+    "StudentName": "Thuc",
+    "Subject": "APDP",
+    "ClassName": "SE06302",
+    "Score": 99,
+    "Type": "ASM2"
+  }
+]

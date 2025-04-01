@@ -1,50 +1,214 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model List<SIMS_App.Models.Record>
+@{
+    ViewData["Title"] = "Home";
 }
-@model List<SIMS_App.Models.Record>
+<style>
+    body {
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .main-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .data-section {
+        margin-bottom: 30px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
+    }
+
+        .table thead {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .status-present {
+        color: #27ae60;
+        font-weight: 500;
+    }
+
+    .status-absent {
+        color: #e74c3c;
+        font-weight: 500;
+    }
+
+    .form-container {
+        background-color: #f9f9f9;
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+    .btn-submit {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+        .btn-submit:hover {
+            background-color: #27ae60;
+        }
+
+    .select-wrapper {
+        position: relative;
+    }
+
+        .select-wrapper:after {
+            content: "▼";
+            font-size: 12px;
+            color: #7f8c8d;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+    select.form-control {
+        appearance: none;
+        padding-right: 30px;
+    }
+</style>
 
 @{
     ViewData["Title"] = "Manage Record";
 }
 
-<h2>Manage Attendance Records</h2>
+<div class="main-container">
+    <h2>Manage Attendance Records</h2>
 
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>Student ID</th>
-            <th>Full Name</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var record in Model)
-        {
-            <tr>
-                <td>@record.StudentId</td>
-                <td>@record.StudentName</td>
-                <td>@(record.IsPresent ? "✅ Present" : "❌ Absent")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="data-section">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    <tr>
+                        <td>@record.StudentId</td>
+                        <td>@record.StudentName</td>
+                        <td class="@(record.IsPresent ? "status-present" : "status-absent")">
+                            @(record.IsPresent ? "✅ Present" : "❌ Absent")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<form method="post" action="@Url.Action("UpdateAttendance", "Record")">
-    <div class="form-group">
-        <label for="studentId">Student ID</label>
-        <input type="text" class="form-control" id="studentId" name="studentId" required>
-    </div>
-    <div class="form-group">
-        <label for="studentName">Full Name</label>
-        <input type="text" class="form-control" id="studentName" name="studentName" required>
-    </div>
-    <div class="form-group">
-        <label>Status</label>
-        <select class="form-control" name="isPresent">
-            <option value="true">✅ Present</option>
-            <option value="false">❌ Absent</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success mt-3">Update</button>
-</form>
+    <div class="form-container">
+        <form method="post" action="@Url.Action("UpdateAttendance", "Record")">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" class="form-control" id="studentId" name="studentId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="studentName">Full Name</label>
+                <input type="text" class="form-control" id="studentName" name="studentName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Attendance Status</label>
+                <div class="select-wrapper">
+                    <select class="form-control" name="isPresent" required>
+                        <option value="true">✅ Present</option>
+                        <option value="false">❌ Absent</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Update Attendance Record</button>
+        </form>
+    </div>
+</div>

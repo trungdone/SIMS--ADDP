@@ -8,13 +8,14 @@
       {
         "Id": 3,
         "UserId": 3,
-        "Username": "bob_johnson",
+        "Username": "do_trung",
         "Password": "hashed_password",
-        "Name": "Bob Johnson",
+        "Name": "Do Trung",
         "Email": "bob@example.com",
         "Phone": "",
         "DateOfBirth": "2004-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 3
@@ -28,13 +29,14 @@
       {
         "Id": 4,
         "UserId": 4,
-        "Username": "eva_adams",
+        "Username": "lan_nguyen",
         "Password": "hashed_password",
-        "Name": "Eva Adams",
+        "Name": "Lan Nguyen",
         "Email": "eva@example.com",
         "Phone": "",
         "DateOfBirth": "2001-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 4
@@ -48,13 +50,14 @@
       {
         "Id": 5,
         "UserId": 5,
-        "Username": "david_brown",
+        "Username": "hung_lee",
         "Password": "hashed_password",
-        "Name": "David Brown",
+        "Name": "Hung Le",
         "Email": "david@example.com",
         "Phone": "",
         "DateOfBirth": "2004-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 5
@@ -68,13 +71,14 @@
       {
         "Id": 6,
         "UserId": 6,
-        "Username": "michael_scott",
+        "Username": "huy_lee",
         "Password": "hashed_password",
-        "Name": "Michael Scott",
+        "Name": "Huy le",
         "Email": "michael@example.com",
         "Phone": "",
         "DateOfBirth": "2001-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 6
@@ -88,13 +92,14 @@
       {
         "Id": 7,
         "UserId": 7,
-        "Username": "jessica_miller",
+        "Username": "viet_chien",
         "Password": "hashed_password",
-        "Name": "Jessica Miller",
+        "Name": "Viet Chien",
         "Email": "jessica@example.com",
         "Phone": "",
         "DateOfBirth": "2002-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 7
@@ -108,13 +113,14 @@
       {
         "Id": 8,
         "UserId": 8,
-        "Username": "daniel_wilson",
+        "Username": "phuong_thao",
         "Password": "hashed_password",
-        "Name": "Daniel Wilson",
+        "Name": "Phuong Thao",
         "Email": "daniel@example.com",
         "Phone": "",
         "DateOfBirth": "2000-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 8
@@ -123,18 +129,19 @@
     "Id": 8,
     "ClassId": 8,
     "Name": "Computer Science 501",
-    "CourseId": 6,
+    "CourseId": 8,
     "Students": [
       {
         "Id": 9,
         "UserId": 9,
-        "Username": "sarah_lee",
+        "Username": "trung_lee",
         "Password": "hashed_password",
-        "Name": "Sarah Lee",
+        "Name": "Trung Le",
         "Email": "sarah@example.com",
         "Phone": "",
         "DateOfBirth": "2004-01-01T00:00:00",
-        "Role": "Student"
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 9
@@ -142,21 +149,46 @@
   {
     "Id": 9,
     "ClassId": 9,
-    "Name": "History 601",
-    "CourseId": 7,
+    "Name": "SDLC",
+    "CourseId": 10,
     "Students": [
       {
         "Id": 10,
         "UserId": 10,
-        "Username": "james_white",
+        "Username": "Van_Ngoc",
         "Password": "hashed_password",
-        "Name": "James White",
-        "Email": "james@example.com",
+        "Name": "Van Ngoc",
+        "Email": "sarah@example.com",
         "Phone": "",
-        "DateOfBirth": "2001-01-01T00:00:00",
-        "Role": "Student"
+        "DateOfBirth": "2004-01-01T00:00:00",
+        "Role": "Student",
+        "StudentId": 0
       }
     ],
     "StudentId": 10
+  },
+  {
+    "Id": 10,
+    "ClassId": 0,
+    "Name": "11",
+    "CourseId": 9,
+    "Students": [],
+    "StudentId": 0
+  },
+  {
+    "Id": 11,
+    "ClassId": 0,
+    "Name": "Programing",
+    "CourseId": 8,
+    "Students": [],
+    "StudentId": 0
+  },
+  {
+    "Id": 12,
+    "ClassId": 0,
+    "Name": "History",
+    "CourseId": 7,
+    "Students": [],
+    "StudentId": 11
   }
 ]

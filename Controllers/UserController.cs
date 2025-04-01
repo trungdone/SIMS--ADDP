@@ -20,12 +20,36 @@ namespace SIMS_App.Controllers
             return View("~/Views/Admin/DashboardAdmin.cshtml");
         }
 
+        [Route("DashboardTeacher")]
+        public IActionResult DashboardTeacher()
+        {
+            return View("~/Views/Teacher/DashboardTeacher.cshtml");
+        }
+
+        [Route("DashboardStudent")]
+        public IActionResult DashboardStudent()
+        {
+            return View("~/Views/Student/DashboardStudent.cshtml");
+        }
+
+
         [HttpGet]
         [Route("")]
         [Route("Index")]
         public IActionResult Index()
         {
-            return RedirectToAction("AdminDashboard");
+            var role = HttpContext.Session.GetString("Role");
+
+            if (role == "Teacher")
+            {
+                return RedirectToAction("TeacherDashboard");
+            }
+            else if (role == "Admin")
+            {
+                return RedirectToAction("AdminDashboard");
+            }
+
+            return RedirectToAction("Login", "Auth"); // Nếu không có quyền, quay lại trang đăng nhập
         }
 
         [HttpGet]

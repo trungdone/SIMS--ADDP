@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using SIMS_App.Models;
 using SIMS_App.Services;
 
@@ -13,6 +16,8 @@ namespace SIMS_App.Controllers
         {
             _authService = new AuthService();
         }
+
+
 
         [HttpGet("Login")]  // ✅ Định nghĩa đường dẫn chính xác
         public IActionResult Login()
@@ -89,6 +94,8 @@ namespace SIMS_App.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+
+
     }
 }
 

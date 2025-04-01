@@ -38,5 +38,25 @@
     "EndDate": "2024-03-02T00:00:00",
     "NumberOfSessions": 30,
     "Classes": []
+  },
+  {
+    "CourseId": 5,
+    "Name": "APDP",
+    "Description": null,
+    "TotalStudents": 14,
+    "StartDate": "2024-02-04T00:00:00",
+    "EndDate": "2004-02-06T00:00:00",
+    "NumberOfSessions": 14,
+    "Classes": []
+  },
+  {
+    "CourseId": 6,
+    "Name": "Programing",
+    "Description": null,
+    "TotalStudents": 25,
+    "StartDate": "2025-04-17T00:00:00",
+    "EndDate": "2025-04-25T00:00:00",
+    "NumberOfSessions": 20,
+    "Classes": []
   }
 ]

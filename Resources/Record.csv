@@ -1,9 +1,25 @@
 ﻿StudentId,StudentName,ClassId,IsPresent
-1,Alice,0,True
-2,Bob,0,False
-1,Alice,0,False
-4,Eva Adams,0,False
-4,Eva Adams,0,True
-5,David Brown,0,True
-6,Michael Scott,0,False
-7,Jessica Miller,0,True
+1,Do Trung,0,True
+2,Ngoc lan,0,False
+1,Le Hung,0,False
+4,Quang Hai,0,False
+4,Van Lam,0,True
+5,Ngoc Quang,0,True
+6,Xuan Truong,0,False
+7,Van Phong,0,True
+9,Van Tuan,0,True
+4,truong Giang,0,True
+4,Tran Thanh,0,True
+7,Minh Vuong,0,False
+7,Minh Hieu,0,True
+8,Thanh Tu,0,True
+7,Van Cuong,0,True
+3,Nguyen Nam,0,True
+4,Dac Huy,0,True
+4,Viet Chien,0,True
+8,Daniel Wilson,0,True
+10,Van Ngoc,0,False
+8,Phuong Thao,0,True
+3,Do Trung,0,True
+5,Hung Le,0,True
+10,Van Ngoc,0,False
