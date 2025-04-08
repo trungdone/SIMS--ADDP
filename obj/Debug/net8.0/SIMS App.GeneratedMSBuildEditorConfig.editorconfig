@@ -1,0 +1,111 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SIMS_App
+build_property.RootNamespace = SIMS_App
+build_property.ProjectDir = D:\SaveFiles\SIMS--ADDP-main (1)\SIMS--ADDP-main\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\SaveFiles\SIMS--ADDP-main (1)\SIMS--ADDP-main
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Admin/DashboardAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Admin/ManageClass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlQ2xhc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Admin/ManageCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlQ291cnNlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Admin/ManageRecord.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUmVjb3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Admin/ManageTimetable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlVGltZXRhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Auth/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Shared/_Navigation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZpZ2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/DashboardStudent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEYXNoYm9hcmRTdHVkZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/ViewClass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxWaWV3Q2xhc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/ViewCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxWaWV3Q291cnNlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/ViewGrade.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxWaWV3R3JhZGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/ViewRecords.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxWaWV3UmVjb3Jkcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Student/ViewTimetable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxWaWV3VGltZXRhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Teacher/DashboardTeacher.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxEYXNoYm9hcmRUZWFjaGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Teacher/ManageClass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNYW5hZ2VDbGFzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Teacher/ManageCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNYW5hZ2VDb3Vyc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Teacher/ManageGrade.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNYW5hZ2VHcmFkZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Teacher/ManageStudents.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNYW5hZ2VTdHVkZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/SaveFiles/SIMS--ADDP-main (1)/SIMS--ADDP-main/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-9tn9fa4k1e

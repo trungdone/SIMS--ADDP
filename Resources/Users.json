@@ -8,7 +8,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Admin"
+    "Role": "Admin",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -19,7 +20,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "User"
+    "Role": "User",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -30,7 +32,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Student"
+    "Role": "Student",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -41,7 +44,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Student"
+    "Role": "Student",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -52,7 +56,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Admin"
+    "Role": "Admin",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -63,7 +68,8 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Admin"
+    "Role": "Admin",
+    "StudentId": 0
   },
   {
     "Id": 0,
@@ -74,6 +80,19 @@
     "Email": null,
     "Phone": null,
     "DateOfBirth": "0001-01-01T00:00:00",
-    "Role": "Teacher"
+    "Role": "Teacher",
+    "StudentId": 0
+  },
+  {
+    "Id": 0,
+    "UserId": 0,
+    "Username": "huy2",
+    "Password": "huy2",
+    "Name": null,
+    "Email": null,
+    "Phone": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Role": "Teacher",
+    "StudentId": 0
   }
 ]

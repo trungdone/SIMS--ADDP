@@ -1,5 +1,196 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@model List<SIMS_App.Models.User>
+
+<style>
+    /* Định dạng chung */
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f9;
+    }
+
+    /* Container chính */
+    .container {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Tiêu đề */
+    h2, h4 {
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    /* Bố cục tiêu đề và nút */
+    .header-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Căn chỉnh bảng */
+    .table-responsive {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .table thead {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease-in-out;
+    }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+    /* Định dạng cột */
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 10%;
+        }
+        /* ID */
+        th:nth-child(2), td:nth-child(2) {
+            width: 20%;
+        }
+        /* Name */
+        th:nth-child(3), td:nth-child(3) {
+            width: 25%;
+        }
+        /* Email */
+        th:nth-child(4), td:nth-child(4) {
+            width: 15%;
+        }
+        /* Phone */
+        th:nth-child(5), td:nth-child(5) {
+            width: 15%;
+            text-align: center;
+        }
+        /* DOB */
+        th:nth-child(6), td:nth-child(6) {
+            width: 15%;
+            text-align: center;
+        }
+    /* Actions */
+
+    /* Nút */
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-success {
+        background: #28a745;
+        border: none;
+    }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+    .btn-primary {
+        background: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+    .btn-danger {
+        background: #dc3545;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background: #bd2130;
+        }
+
+    /* Căn chỉnh nút trong bảng */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    /* Điều chỉnh viền của bảng */
+    .table {
+        border: none;
+    }
+
+    /* Loại bỏ viền của container */
+    .container {
+        box-shadow: none;
+    }
+
+    /* Đảm bảo các nút không tràn ra ngoài */
+    th:nth-child(6), td:nth-child(6) {
+        width: 15%;
+        text-align: center;
+        white-space: nowrap; /* Ngăn xuống dòng */
+    }
+
+    /* Căn chỉnh nút trong bảng */
+    .action-buttons {
+        display: flex;
+        justify-content: center; /* Canh giữa */
+        align-items: center;
+        gap: 5px; /* Khoảng cách giữa các nút */
+    }
+
+        /* Giới hạn kích thước nút */
+        .action-buttons a {
+            padding: 5px 10px;
+            font-size: 14px;
+            display: inline-block;
+            width: 70px; /* Giữ kích thước nút đồng nhất */
+            text-align: center;
+        }
+
+</style>
+
+
+<div class="container">
+    <h2>Student Management</h2>
+    <div class="container mt-4">
+        <h2>Welcome to Student Information Management System</h2>
+        <p>Manage students, courses, records, and classes efficiently.</p>
+    </div>
+    <div class="logo">
+        <img src="~/images/screenshot 2025-04-01 114816.png" alt="FPT Logo" height="540">
+    </div>
+
+    
+</div>
+
+<!-- Form thêm/sửa User -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+
+    
+
+    
+
+</script>
+
+

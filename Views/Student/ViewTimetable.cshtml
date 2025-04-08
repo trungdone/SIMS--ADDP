@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<SIMS_App.Models.Timetable>
+
+<h2>My Timetable</h2>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Teacher</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var timetable in Model)
+        {
+            <tr>
+                <td>@timetable.StudentName</td>
+                <td>@timetable.Subject</td>
+                <td>@timetable.ClassName</td>
+                <td>@timetable.TeacherName</td>
+                <td>@timetable.StartTime</td>
+                <td>@timetable.EndTime</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -62,6 +62,8 @@
                         <button class="btn btn-primary" onclick="editCourse(@course.CourseId, '@course.Name')">Edit</button>
                         <button class="btn btn-danger" onclick="deleteCourse(@course.CourseId)">Delete</button>
                         <button class="btn btn-info" onclick="viewStudents(@Convert.ToInt32(course.CourseId))">View Students</button>
+                        <button class="btn btn-success" onclick="showAddStudentToCourseModal(@course.CourseId)">Add Student</button>
+
 
                     </td>
                 </tr>
@@ -69,6 +71,18 @@
         </tbody>
     </table>
 </div>
+
+<div id="addStudentToCourseModal" style="display:none; padding:20px; background:white; border:1px solid #ccc;">
+    <h4>Add Student to Course</h4>
+    <input type="hidden" id="selectedCourseId">
+    <select id="studentDropdown" class="form-control mb-2">
+        <option value="">-- Select Student --</option>
+    </select>
+    <button class="btn btn-primary" onclick="submitStudentToCourse()">Add</button>
+    <button class="btn btn-secondary" onclick="$('#addStudentToCourseModal').hide()">Cancel</button>
+</div>
+
+
 
 <div id="studentsList" style="display: none;">
     <h3>Student List</h3>
@@ -143,17 +157,29 @@
     }
 
 
+
     function deleteCourse(courseId) {
-        if (confirm("Are you sure you want to delete this course?")) {
-            $.ajax({
-                url: "/Course/DeleteCourse?id=" + courseId,
-                type: "DELETE",
-                success: function (response) {
-                    alert(response.message);
+        if (!confirm("Are you sure you want to delete this course?")) return;
+
+        $.ajax({
+            url: "/Courses/DeleteCourse",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(courseId),
+            success: function (res) {
+                if (res.success) {
+                    alert(res.message);
                     location.reload();
+                } else {
+                    alert(res.message);  // Now shows actual error
                 }
-            });
-        }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", xhr.responseText);
+                alert("❌ AJAX error: " + xhr.status + " - " + xhr.responseText);
+            }
+
+        });
     }
 
     function viewStudents(classId) {
@@ -198,4 +224,49 @@
         });
     }
 
+        function showAddStudentToCourseModal(courseId) {
+            $("#selectedCourseId").val(courseId);
+            $.get("/Class/GetAllStudents", function (students) {
+                let options = '<option value="">-- Select Student --</option>';
+                students.forEach(s => {
+                    options += `<option value="${s.studentId}">${s.name} (${s.email})</option>`;
+                });
+                $("#studentDropdown").html(options);
+                $("#addStudentToCourseModal").show();
+            });
+        }
+
+    function submitStudentToCourse() {
+        const studentId = $("#studentDropdown").val();
+        const courseId = $("#selectedCourseId").val();
+
+        if (!studentId || !courseId) {
+            alert("Please select a student.");
+            return;
+        }
+
+        $.ajax({
+            url: "/Courses/AssignStudentToCourse",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                studentId: parseInt(studentId),
+                courseId: parseInt(courseId)
+            }),
+            success: function (res) {
+                alert(res.message || "Student added.");
+                $("#addStudentToCourseModal").hide();
+                location.reload();
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Error assigning student.");
+            }
+        });
+    }
+
+
+
 </script>
+
+

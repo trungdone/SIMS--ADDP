@@ -14,6 +14,7 @@ namespace SIMS_App.Data
         };
 
         private List<Class> classes;
+
         private const string FilePath = "Resources/Classes.json";
 
         public DataService()
@@ -32,6 +33,29 @@ namespace SIMS_App.Data
             {
                 classes = new List<Class>();
             }
+        }
+
+        public void AssignStudentToCourse(int studentId, int courseId)
+        {
+            var classForCourse = classes.FirstOrDefault(c => c.CourseId == courseId);
+            if (classForCourse == null)
+                throw new Exception("No class found for the given course.");
+
+            string studentPath = "Resources/Student.CSV";
+            var lines = File.ReadAllLines(studentPath).ToList();
+
+            for (int i = 1; i < lines.Count; i++)
+            {
+                var parts = lines[i].Split(',');
+                if (int.TryParse(parts[0], out int sid) && sid == studentId)
+                {
+                    parts[4] = classForCourse.Id.ToString();  // Update ClassId
+                    lines[i] = string.Join(",", parts);
+                    break;
+                }
+            }
+
+            File.WriteAllLines(studentPath, lines);
         }
 
 
@@ -124,8 +148,51 @@ namespace SIMS_App.Data
             Console.WriteLine($"\n🔍 Đang tìm lớp với ClassId: {classId}");
             var result = classes.FirstOrDefault(c => c.Id == classId);
             Console.WriteLine($"Kết quả: {(result != null ? $"Tìm thấy: {result.Name}" : "Không tìm thấy")}");
+
+            if (result != null)
+            {
+                // 🔥 Load students from Student.CSV and attach to class
+                result.Students = GetStudentsByClassId(classId)
+                    .Select(s => new User
+                    {
+                        Id = s.StudentId,
+                        Name = s.Name,
+                        Email = s.Email,
+                        Phone = "", // If available, map it
+                        DateOfBirth = DateTime.Now, // Replace if real DOB exists
+                        Role = "Student"
+                    }).ToList();
+            }
+
             return result;
         }
+
+        public void AddStudentToClass(Student student)
+        {
+            string path = "Resources/Student.CSV";
+
+            // Generate new student ID
+            int nextId = 1;
+            if (File.Exists(path))
+            {
+                var lines = File.ReadLines(path).Skip(1);
+                if (lines.Any())
+                    nextId = lines.Select(l => int.Parse(l.Split(',')[0])).Max() + 1;
+            }
+
+            student.StudentId = nextId;
+
+            using (var writer = new StreamWriter(path, true))
+            {
+                if (new FileInfo(path).Length == 0)
+                {
+                    writer.WriteLine("StudentId,Name,Age,Email,ClassId");
+                }
+
+                writer.WriteLine($"{student.StudentId},{student.Name},{student.Age},{student.Email},{student.ClassId}");
+            }
+        }
+
 
 
         public void AddClass(Class newClass)
@@ -143,6 +210,60 @@ namespace SIMS_App.Data
             classes.Add(newClass);
             SaveClasses();
         }
+
+        public List<Student> GetAllStudentsNotInClass(int classId)
+        {
+            var allStudents = new List<Student>();
+            string path = "Resources/Student.CSV";
+
+            if (!File.Exists(path)) return allStudents;
+
+            var lines = File.ReadAllLines(path).Skip(1);
+            foreach (var line in lines)
+            {
+                var data = line.Split(',');
+                if (data.Length >= 5)
+                {
+                    var student = new Student
+                    {
+                        StudentId = int.Parse(data[0]),
+                        Name = data[1],
+                        Age = int.Parse(data[2]),
+                        Email = data[3],
+                        ClassId = int.Parse(data[4])
+                    };
+
+                    // Only add if not already in this class
+                    if (student.ClassId != classId)
+                        allStudents.Add(student);
+                }
+            }
+
+            return allStudents;
+        }
+
+
+        public void AssignStudentToClass(int studentId, int classId)
+        {
+            string path = "Resources/Student.CSV";
+            var lines = File.ReadAllLines(path).ToList();
+
+            for (int i = 1; i < lines.Count; i++)
+            {
+                var parts = lines[i].Split(',');
+                if (int.Parse(parts[0]) == studentId)
+                {
+                    parts[4] = classId.ToString();  // Update ClassId
+                    lines[i] = string.Join(",", parts);
+                    break;
+                }
+            }
+
+            File.WriteAllLines(path, lines);
+        }
+
+
+
 
 
 
@@ -166,6 +287,28 @@ namespace SIMS_App.Data
                 classes.Remove(cls);
                 SaveClasses();
             }
+        }
+
+        public void RemoveStudentFromCourse(int studentId, int courseId)
+        {
+            var classForCourse = GetClasses().FirstOrDefault(c => c.CourseId == courseId);
+            if (classForCourse == null) throw new Exception("Class not found for the course.");
+
+            string path = "Resources/Student.CSV";
+            var lines = File.ReadAllLines(path).ToList();
+
+            for (int i = 1; i < lines.Count; i++)
+            {
+                var parts = lines[i].Split(',');
+                if (int.TryParse(parts[0], out int sid) && sid == studentId)
+                {
+                    parts[4] = "0"; // Unassign student from class
+                    lines[i] = string.Join(",", parts);
+                    break;
+                }
+            }
+
+            File.WriteAllLines(path, lines);
         }
     }
 
@@ -234,5 +377,31 @@ namespace SIMS_App.Data
             }
             return string.Empty;
         }
+
+        public void AssignStudentToCourse(int studentId, int courseId)
+        {
+            var classForCourse = _dataService.GetClasses().FirstOrDefault(c => c.CourseId == courseId);
+            if (classForCourse == null)
+                throw new Exception("No class found for the given course.");
+
+            string studentPath = "Resources/Student.CSV";
+            var lines = File.ReadAllLines(studentPath).ToList();
+
+            for (int i = 1; i < lines.Count; i++)
+            {
+                var parts = lines[i].Split(',');
+                if (int.TryParse(parts[0], out int sid) && sid == studentId)
+                {
+                    parts[4] = classForCourse.Id.ToString();  // ✅ Update ClassId
+                    lines[i] = string.Join(",", parts);
+                    break;
+                }
+            }
+
+            File.WriteAllLines(studentPath, lines);
+        }
+        
+
+
     }
 }

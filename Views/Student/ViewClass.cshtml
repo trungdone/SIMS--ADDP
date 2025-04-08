@@ -1,0 +1,210 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<SIMS_App.Models.Class>
+
+<h2>My Classes</h2>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+
+    h2, h3 {
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+    }
+
+    button {
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    .edit-btn {
+        background: #28a745;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .view-btn {
+        background: #17a2b8;
+        color: white;
+    }
+
+    input {
+        padding: 8px;
+        margin: 5px 0;
+        width: 200px;
+    }
+
+    #editForm, #studentsList {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .student-table th,
+        .student-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .student-table th {
+            background-color: #f2f2f2;
+        }
+
+    .alert {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    #studentsList {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>
+
+
+<table id="classTable">
+    <tr>
+        <th>ID</th>
+        <th>Class Name</th>
+        <th>Course ID</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var cls in Model)
+    {
+        <tr>
+            <td>@cls.Id</td>
+            <td>@cls.Name</td>
+            <td>@cls.CourseId</td>
+            <td>
+
+                <button class="view-btn" onclick="viewStudents(@cls.Id)">View Students</button>
+
+
+            </td>
+        </tr>
+    }
+</table>
+
+
+<div id="studentsList" style="display: none;">
+    <h3>Student List</h3>
+    <ul id="students"></ul>
+</div>
+
+
+<!-- jQuery AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    function viewStudents(classId) {
+        console.log("Fetching students for class ID: " + classId);
+
+        $.ajax({
+            url: '/Class/ViewStudents',
+            type: 'GET',
+            data: { id: classId },
+            success: function (response) {
+                console.log("Full response:", response);
+
+                if (response.success && Array.isArray(response.students)) {
+                    let studentList = `
+                                <h3>Students in Class ${classId}</h3>
+                                <table class="student-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+
+                    response.students.forEach(student => {
+                        console.log("Student data:", student);
+                        studentList += `
+                                    <tr>
+                                        <td>${student.id || 'N/A'}</td>
+                                        <td>${student.name || 'N/A'}</td>
+                                        <td>${student.email || 'N/A'}</td>
+                                    </tr>`;
+                    });
+
+                    studentList += `</tbody></table>`;
+                    $('#studentsList').html(studentList).show();
+                } else {
+                    $('#studentsList').html(`
+                                <div class="alert alert-warning">
+                                    ${response.message || 'No students found'}
+                                </div>
+                            `).show();
+                }
+            },
+            error: function (xhr) {
+                console.error("Error:", xhr);
+                $('#studentsList').html(`
+                            <div class="alert alert-danger">
+                                Error loading students. Please try again.
+                            </div>
+                        `).show();
+            }
+        });
+    }
+
+
+</script>
+
+

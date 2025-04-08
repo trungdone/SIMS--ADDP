@@ -100,9 +100,10 @@ namespace SIMS_App.Services
             if (course != null)
             {
                 courses.Remove(course);
-                SaveCourses();
+                SaveCourses(); // if you persist to file
             }
         }
+
 
         public List<Student> GetStudentsByClassId(int classId)
         {

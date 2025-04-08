@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model List<SIMS_App.Models.Grade>
+
+<h2>My Grades</h2>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Score</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var grade in Model)
+        {
+            <tr>
+                <td>@grade.StudentId</td>
+                <td>@grade.StudentName</td>
+                <td>@grade.Subject</td>
+                <td>@grade.ClassName</td>
+                <td>@grade.Score</td>
+                <td>@grade.Type</td>
+            </tr>
+        }
+    </tbody>
+</table>

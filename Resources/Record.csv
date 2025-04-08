@@ -1,25 +1,24 @@
-﻿StudentId,StudentName,ClassId,IsPresent
-1,Do Trung,0,True
-2,Ngoc lan,0,False
-1,Le Hung,0,False
-4,Quang Hai,0,False
-4,Van Lam,0,True
-5,Ngoc Quang,0,True
-6,Xuan Truong,0,False
-7,Van Phong,0,True
-9,Van Tuan,0,True
-4,truong Giang,0,True
-4,Tran Thanh,0,True
-7,Minh Vuong,0,False
-7,Minh Hieu,0,True
-8,Thanh Tu,0,True
-7,Van Cuong,0,True
-3,Nguyen Nam,0,True
-4,Dac Huy,0,True
-4,Viet Chien,0,True
-8,Daniel Wilson,0,True
-10,Van Ngoc,0,False
-8,Phuong Thao,0,True
-3,Do Trung,0,True
-5,Hung Le,0,True
-10,Van Ngoc,0,False
+StudentId,StudentName,ClassId,Date,IsPresent
+21,Nguyễn Văn Bảo,3,2025-04-05,True
+23,Lê Văn Dũng,3,2025-04-05,True
+25,Hoàng Văn Khôi,3,2025-04-05,True
+16,Vũ Thị Uyên,2,2025-04-05,False
+17,Đặng Văn Vinh,2,2025-04-05,False
+18,Bùi Thị Xuân,2,2025-04-05,False
+11,Nguyễn Văn Phúc,2,2025-04-05,True
+12,Trần Thị Quỳnh,2,2025-04-05,True
+13,Lê Văn Sơn,2,2025-04-05,True
+14,Phạm Thị Tuyết,2,2025-04-05,True
+15,Hoàng Văn Tuấn,2,2025-04-05,False
+19,Mai Văn Yên,2,2025-04-05,False
+20,Ngô Thị Ánh,2,2025-04-05,False
+21,Nguyễn Văn Bảo,2,2025-04-05,False
+23,Lê Văn Dũng,2,2025-04-05,False
+25,Hoàng Văn Khôi,2,2025-04-05,False
+22,Trần Thị Châu,3,2025-04-05,True
+24,Phạm Thị Hạnh,3,2025-04-05,True
+26,Vũ Thị Linh,3,2025-04-05,False
+27,Đặng Văn Mạnh,3,2025-04-05,False
+28,Bùi Thị Ngọc,3,2025-04-05,False
+29,Mai Văn Phong,3,2025-04-05,False
+30,Ngô Thị Quyên,3,2025-04-05,True

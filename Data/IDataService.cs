@@ -10,6 +10,13 @@ namespace SIMS_App.Data
         void AddCourse(Course course);
         void UpdateCourse(Course course);
         void DeleteCourse(int courseId);
+        void AddStudentToClass(Student student);
+        List<Student> GetAllStudentsNotInClass(int classId);
+        void AssignStudentToClass(int studentId, int classId);
+        void AssignStudentToCourse(int studentId, int courseId);
+        void RemoveStudentFromCourse(int studentId, int courseId);
+
+
 
         List<Class> GetClasses();
         Class GetClassById(int classId);
