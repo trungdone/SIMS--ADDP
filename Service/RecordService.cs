@@ -44,89 +44,41 @@ namespace SIMS_App.Services
             _observers.Remove(observer);
         }
 
-        public List<Record> GetStudentsByClass(int classId)
-        {
-            var records = new List<Record>();
 
-            // Đọc từ file CSV
-            if (File.Exists(_filePath))
-            {
-                var lines = File.ReadAllLines(_filePath).Skip(1); // Bỏ dòng header
-                foreach (var line in lines)
-                {
-                    var parts = line.Split(',');
-                    if (parts.Length >= 4 && int.TryParse(parts[0], out int studentId) && int.TryParse(parts[2], out int csvClassId))
-                    {
-                        if (csvClassId == classId) // Lọc đúng class
-                        {
-                            records.Add(new Record
-                            {
-                                StudentId = studentId,
-                                StudentName = parts[1],
-                                ClassId = csvClassId,
-                                IsPresent = bool.Parse(parts[3])
-                            });
-                        }
-                    }
-                }
-            }
-
-            return records;
-        }
 
         public List<Record> GetRecordsByStudentId(int studentId)
         {
             Console.WriteLine("\n---- BẮT ĐẦU GetRecordsByStudentId ----");
-            Console.WriteLine($"🔎 StudentId cần tìm: {studentId}");
+            var records = new List<Record>();
+            string filePath = "Resources/Record.csv";
 
-            var fullPath = Path.GetFullPath(_filePath);
-            Console.WriteLine($"📁 Đường dẫn file CSV: {fullPath}");
-            Console.WriteLine($"🔍 File tồn tại: {File.Exists(fullPath)}");
-
-            if (!File.Exists(fullPath))
+            if (!File.Exists(filePath))
             {
                 Console.WriteLine("❌ File CSV không tồn tại!");
-                return new List<Record>();
+                return records;
             }
 
-            Console.WriteLine("\nNội dung file CSV:");
-            Console.WriteLine(File.ReadAllText(fullPath));
-
-            var records = new List<Record>();
-            var lines = File.ReadAllLines(fullPath);
-
-            Console.WriteLine($"\nTổng số dòng: {lines.Length}");
-            Console.WriteLine("Header: " + lines[0]);
+            var lines = File.ReadAllLines(filePath);
 
             for (int i = 1; i < lines.Length; i++)
             {
-                var line = lines[i];
-                Console.WriteLine($"\nĐang xử lý dòng {i}: {line}");
-
-                var parts = line.Split(',');
-                Console.WriteLine($"Số phần tử sau split: {parts.Length}");
-
-                if (parts.Length >= 4)
+                var parts = lines[i].Split(',');
+                if (parts.Length >= 5 &&
+                    int.TryParse(parts[0], out int csvStudentId) &&
+                    csvStudentId == studentId)
                 {
-                    Console.WriteLine($"Phần tử 0 (StudentId): {parts[0]}");
-                    Console.WriteLine($"Phần tử 2 (ClassId): {parts[2]}");
-
-                    if (int.TryParse(parts[0], out int csvStudentId) && csvStudentId == studentId)
+                    records.Add(new Record
                     {
-                        Console.WriteLine("✅ Tìm thấy bản ghi phù hợp!");
-                        records.Add(new Record
-                        {
-                            StudentId = csvStudentId,
-                            StudentName = parts[1],
-                            ClassId = int.Parse(parts[2]),
-                            IsPresent = bool.Parse(parts[3]),
-                            Date = DateTime.Now
-                        });
-                    }
+                        StudentId = csvStudentId,
+                        StudentName = parts[1],
+                        ClassId = int.Parse(parts[2]),
+                        Date = DateTime.Parse(parts[3]), // ✅ Parse date
+                        IsPresent = bool.Parse(parts[4])
+                    });
                 }
             }
 
-            Console.WriteLine($"\nTổng số bản ghi tìm thấy: {records.Count}");
+            Console.WriteLine($"✅ Tổng số bản ghi tìm thấy: {records.Count}");
             Console.WriteLine("---- KẾT THÚC GetRecordsByStudentId ----\n");
             return records;
         }
@@ -135,15 +87,69 @@ namespace SIMS_App.Services
 
         public void SetAttendance(int studentId, string studentName, bool isPresent, int classId)
         {
-            var record = new Record { StudentId = studentId, StudentName = studentName, IsPresent = isPresent, ClassId = classId };
+            string filePath = "Resources/Record.csv";
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
 
-            foreach (var observer in _observers)
+            var lines = File.Exists(filePath) ? File.ReadAllLines(filePath).ToList() : new List<string>();
+
+            // Header
+            if (lines.Count == 0 || !lines[0].StartsWith("StudentId"))
+                lines.Insert(0, "StudentId,StudentName,ClassId,Date,IsPresent");
+
+            // Remove old record for same student/class/date
+            lines = lines.Where(line =>
             {
-                observer.UpdateAttendance(record);
+                var parts = line.Split(',');
+                return !(parts.Length >= 5 &&
+                         parts[0] == studentId.ToString() &&
+                         parts[2] == classId.ToString() &&
+                         parts[3] == date);
+            }).ToList();
+
+            // Add new record
+            lines.Add($"{studentId},{studentName},{classId},{date},{isPresent}");
+
+            File.WriteAllLines(filePath, lines);
+        }
+        public List<Record> GetStudentsByClass(int classId)
+        {
+            var selectedClass = _dataService.GetClassById(classId);
+            var records = new List<Record>();
+            if (selectedClass == null || selectedClass.Students == null)
+                return records;
+
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+            string filePath = "Resources/Record.csv";
+            var attendanceMap = new Dictionary<int, bool>();
+
+            if (File.Exists(filePath))
+            {
+                foreach (var line in File.ReadLines(filePath).Skip(1))
+                {
+                    var parts = line.Split(',');
+                    if (parts.Length >= 5 &&
+                        int.TryParse(parts[0], out int sid) &&
+                        int.TryParse(parts[2], out int cid) &&
+                        parts[3] == today &&
+                        cid == classId)
+                    {
+                        attendanceMap[sid] = bool.Parse(parts[4]);
+                    }
+                }
             }
 
-            // Lưu điểm danh vào file CSV
-            SaveAttendanceToCsv(record);
+            foreach (var student in selectedClass.Students)
+            {
+                records.Add(new Record
+                {
+                    StudentId = student.Id,
+                    StudentName = student.Name,
+                    ClassId = classId,
+                    IsPresent = attendanceMap.ContainsKey(student.Id) ? attendanceMap[student.Id] : false
+                });
+            }
+
+            return records;
         }
 
         private void SaveAttendanceToCsv(Record record)

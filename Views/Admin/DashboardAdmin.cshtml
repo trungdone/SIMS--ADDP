@@ -250,9 +250,11 @@
         $("#userName").val(name);
         $("#userEmail").val(email);
         $("#userPhone").val(phone);
-        $("#userDob").val(dob);
+        $("#userDob").val(dob.split("T")[0]); // remove time if present
         $("#userFormModal").show();
     }
+
+
 
     function saveUser() {
         const user = {
@@ -290,7 +292,7 @@
             url: "/User/DeleteUser",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ id: id }),
+            data: JSON.stringify(id),  // 🔥 FIX: send raw int, not object
             success: function (response) {
                 if (response.success) {
                     alert(response.message);
@@ -304,6 +306,7 @@
             }
         });
     }
+
 
     function closeModal() {
         $("#userFormModal").hide();

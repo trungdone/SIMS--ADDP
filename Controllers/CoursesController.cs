@@ -10,15 +10,17 @@ namespace SIMS_App.Controllers
     public class CourseController : Controller
     {
         private readonly CourseService _courseService;
-
-        public CourseController()
+        private readonly IDataService _dataService;
+        public CourseController(IDataService dataService)
         {
             _courseService = new CourseService();
+            _dataService = dataService;
         }
 
 
-  
-            [Route("ManageCourses")]
+
+
+        [Route("ManageCourses")]
             public IActionResult Index()
             {
                 List<Course> courses = _courseService.GetCourses();
@@ -41,6 +43,11 @@ namespace SIMS_App.Controllers
             return Json(new { success = true, message = "Course added successfully!" });
         }
 
+       
+
+
+
+
         [HttpPut]
         [Route("UpdateCourse")]
         public IActionResult UpdateCourse([FromBody] Course course)
@@ -49,44 +56,87 @@ namespace SIMS_App.Controllers
             return Json(new { success = true, message = "Course updated successfully!" });
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("DeleteCourse")]
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteCourse([FromBody] int courseId)
         {
-            _courseService.DeleteCourse(id);
-            return Json(new { success = true, message = "Course deleted successfully!" });
+            Console.WriteLine($"🔧 Attempting to delete course with ID: {courseId}");
+
+            try
+            {
+                _courseService.DeleteCourse(courseId);
+                return Json(new { success = true, message = "✅ Course deleted successfully!" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ ERROR during deletion: {ex.Message}");
+                return Json(new { success = false, message = "❌ Server error: " + ex.Message });
+            }
         }
+
+
+
+        [HttpPost]
+        [Route("AssignStudentToCourse")]
+        public JsonResult AssignStudentToCourse([FromBody] AssignStudentModel model)
+        {
+            _dataService.AssignStudentToCourse(model.StudentId, model.CourseId);
+            return Json(new { success = true, message = "✅ Student assigned successfully!" });
+        }
+
+
 
         [HttpGet]
         [Route("ViewStudents")]
-        public IActionResult ViewStudents(int id)
+        public IActionResult ViewStudents(int id)  // id = courseId
         {
-            Console.WriteLine($"Received class ID: {id}");
-            var students = _courseService.GetStudentsByClassId(id);
+            Console.WriteLine($"📥 ViewStudents called with CourseId = {id}");
 
-            if (students != null && students.Any())
+            var classObj = _dataService.GetClasses().FirstOrDefault(c => c.CourseId == id);
+            if (classObj == null)
             {
-                Console.WriteLine($"Total students found: {students.Count}");
-                return Json(new
-                {
-                    success = true,
-                    students = students.Select(s => new {
-                        id = s.StudentId,  // Đổi thành lowercase để phù hợp với JavaScript
-                        name = s.Name,
-                        email = s.Email
-                    }).ToList()
-                });
+                Console.WriteLine("❌ No class found for the provided course.");
+                return Json(new { success = false, message = "No class found for this course." });
             }
-            else
+
+            var students = _dataService.GetStudentsByClassId(classObj.Id);
+            if (students == null || !students.Any())
             {
-                Console.WriteLine("No students found for this class.");
-                return Json(new
+                Console.WriteLine("⚠ No students found in the associated class.");
+                return Json(new { success = false, message = "No students found in this course." });
+            }
+
+            Console.WriteLine($"✅ Found {students.Count} student(s) for CourseId = {id}");
+
+            return Json(new
+            {
+                success = true,
+                students = students.Select(s => new
                 {
-                    success = false,
-                    message = "No students found in this course."
-                });
+                    id = s.StudentId,
+                    name = s.Name,
+                    email = s.Email
+                }).ToList()
+            });
+        }
+
+        [HttpPost]
+        [Route("RemoveStudentFromCourse")]
+        public JsonResult RemoveStudentFromCourse([FromBody] AssignStudentModel model)
+        {
+            try
+            {
+                _dataService.RemoveStudentFromCourse(model.StudentId, model.CourseId);
+                return Json(new { success = true, message = "✅ Student removed from course!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "❌ Error: " + ex.Message });
             }
         }
+
+
+
 
     }
 }

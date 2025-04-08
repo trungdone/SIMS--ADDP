@@ -91,5 +91,6 @@ namespace SIMS_App.Controllers
             return Json(new { success = true, message = "User deleted successfully" });
         }
 
+
     }
 }

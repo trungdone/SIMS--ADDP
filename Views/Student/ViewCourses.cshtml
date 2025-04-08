@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model List<SIMS_App.Models.Course>
@@ -25,12 +25,7 @@
 <div class="container">
     <div id="studentsList" style="display: none;"></div>
 
-    <input type="text" id="courseName" placeholder="Course Name">
-    <input type="date" id="startDate">
-    <input type="date" id="endDate">
-    <input type="number" id="totalStudents" placeholder="Total Students">
-    <input type="number" id="sessions" placeholder="Number of Sessions">
-    <button class="btn btn-success" onclick="addCourse()">Add Course</button>
+   
 
     <table class="table table-bordered">
         <thead>
@@ -41,7 +36,6 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Sessions</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody id="courseTable">
@@ -54,11 +48,7 @@
                     <td>@course.StartDate.ToString("dd/MM/yyyy")</td>
                     <td>@course.EndDate.ToString("dd/MM/yyyy")</td>
                     <td>@course.NumberOfSessions</td>
-                    <td>
-                        <button class="btn btn-primary" onclick="editCourse(@course.CourseId, '@course.Name')">Edit</button>
-                        <button class="btn btn-info" onclick="viewStudents(@Convert.ToInt32(course.CourseId))">View Students</button>
-
-                    </td>
+                    
                 </tr>
             }
         </tbody>

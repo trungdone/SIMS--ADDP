@@ -27,6 +27,26 @@ namespace SIMS_App.Controllers
             return View("~/Views/Student/ViewClass.cshtml", classes);
         }
 
+        [HttpGet]
+        public JsonResult ViewStudents(int id)
+        {
+            var students = _dataService.GetStudentsByClassId(id);
+
+            if (students == null || !students.Any())
+                return Json(new { success = false, message = "No students found in this class!" });
+
+            return Json(new
+            {
+                success = true,
+                students = students.Select(s => new {
+                    id = s.StudentId,
+                    name = s.Name,
+                    email = s.Email
+                }).ToList()
+            });
+        }
+
+
 
 
         [HttpPost]
@@ -81,36 +101,30 @@ namespace SIMS_App.Controllers
             return Json(new { success = true, message = "Class deleted successfully!" });
         }
 
-        [HttpGet]
-        public JsonResult ViewStudents(int id)
+        [HttpPost]
+        public JsonResult AddStudentToClass([FromBody] Student student)
         {
-            Console.WriteLine($"Received Class ID: {id}");
-
-            try
-            {
-                var students = _dataService.GetStudentsByClassId(id);
-
-                if (students == null || !students.Any())
-                {
-                    return Json(new { success = false, message = "No students found in this class!" });
-                }
-
-                return Json(new
-                {
-                    success = true,
-                    students = students.Select(s => new {
-                        id = s.StudentId,
-                        name = s.Name,
-                        email = s.Email
-                    }).ToList()
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return Json(new { success = false, message = "Error fetching students!" });
-            }
+            _dataService.AddStudentToClass(student);
+            return Json(new { success = true, message = "Student added successfully!" });
         }
+
+        [HttpGet]
+        public JsonResult GetAllStudents(int classId)
+        {
+            var students = _dataService.GetAllStudentsNotInClass(classId);
+            return Json(students);
+        }
+
+
+        [HttpPost]
+        public JsonResult AssignStudentToClass([FromBody] AssignStudentModel model)
+        {
+            _dataService.AssignStudentToClass(model.StudentId, model.ClassId);
+            return Json(new { success = true, message = "Student assigned successfully!" });
+        }
+
+
+
 
 
     }

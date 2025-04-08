@@ -4,11 +4,12 @@
     "UserId": 0,
     "Username": null,
     "Password": null,
-    "Name": "Trung Do",
-    "Email": "Trung@example.com",
-    "Phone": "123-456-7890",
-    "DateOfBirth": "2004-07-07T00:00:00",
-    "Role": null
+    "Name": "Trung Do1",
+    "Email": "Trung1@example.com",
+    "Phone": "123-456-78901",
+    "DateOfBirth": "2005-07-12T00:00:00",
+    "Role": null,
+    "StudentId": 0
   },
   {
     "Id": 2,
@@ -19,7 +20,8 @@
     "Email": "Hung@example.com",
     "Phone": "987-654-3210",
     "DateOfBirth": "2005-09-04T00:00:00",
-    "Role": null
+    "Role": null,
+    "StudentId": 0
   },
   {
     "Id": 3,
@@ -30,7 +32,8 @@
     "Email": "thao@gmail.com",
     "Phone": "12345678",
     "DateOfBirth": "2004-04-02T00:00:00",
-    "Role": null
+    "Role": null,
+    "StudentId": 0
   },
   {
     "Id": 4,
@@ -41,17 +44,31 @@
     "Email": "chientrienchiu@gmail.com",
     "Phone": "32788889",
     "DateOfBirth": "2004-03-02T00:00:00",
-    "Role": null
+    "Role": null,
+    "StudentId": 0
   },
   {
-    "Id": 5,
+    "Id": 6,
     "UserId": 0,
     "Username": null,
     "Password": null,
-    "Name": "nam",
-    "Email": "nam@gmail.com",
-    "Phone": "646474848",
-    "DateOfBirth": "2004-02-05T00:00:00",
-    "Role": null
+    "Name": "Huy",
+    "Email": "huy@gmail.com",
+    "Phone": "0000000001",
+    "DateOfBirth": "2025-04-05T00:00:00",
+    "Role": null,
+    "StudentId": 0
+  },
+  {
+    "Id": 7,
+    "UserId": 0,
+    "Username": null,
+    "Password": null,
+    "Name": "Trung",
+    "Email": "trung@gmail.com",
+    "Phone": "000000000",
+    "DateOfBirth": "2025-04-05T00:00:00",
+    "Role": null,
+    "StudentId": 0
   }
 ]

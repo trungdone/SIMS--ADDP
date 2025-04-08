@@ -1,7 +1,154 @@
-﻿
-@{
-    ViewData["Title"] = "ManageCourses";
-}
+﻿<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Total Students</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.CourseId</td>
+                <td>@course.Name</td>
+                <td>@course.TotalStudents</td>
+                <td>@course.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@course.EndDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <button class="btn btn-info" onclick="viewStudents(@course.CourseId)">View Students</button>
+                    <button class="btn btn-success" onclick="showAssignModal(@course.CourseId)">Assign Student</button>
+                    Console.WriteLine($"Assigned student {studentId} to course {courseId}");
 
-<h1>ManageCourses</h1>
 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="assignStudentModal" style="display:none;">
+    <h4>Assign Student</h4>
+    <input type="hidden" id="courseIdHidden">
+    <select id="studentSelect" class="form-control"></select>
+    <button onclick="assignStudent()">Assign</button>
+    <button onclick="$('#assignStudentModal').hide()">Cancel</button>
+</div>
+
+<script>
+    function viewStudents(courseId) {
+        $.ajax({
+            url: '/Courses/ViewStudents',
+            type: 'GET',
+            data: { id: courseId },
+            success: function (response) {
+                if (response.success && Array.isArray(response.students)) {
+                    let tableHtml = `<h4>Students in Course ${courseId}</h4>
+                        <table class="table table-bordered">
+                            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr></thead><tbody>`;
+
+                    response.students.forEach(s => {
+                        tableHtml += `<tr>
+                            <td>${s.id}</td>
+                            <td>${s.name}</td>
+                            <td>${s.email}</td>
+                            <td>
+                                <button class="btn btn-danger" onclick="removeStudent(${s.id}, ${courseId})">Remove</button>
+                            </td>
+                        </tr>`;
+                    });
+
+                    tableHtml += `</tbody></table>`;
+                    $("#assignStudentModal").html(tableHtml).show();  // You can use a new modal if preferred
+                } else {
+                    $("#assignStudentModal").html("<div>No students found</div>").show();
+                }
+            },
+            error: function () {
+                alert("❌ Error loading student list.");
+            }
+        });
+    }
+
+
+    function showAssignModal(courseId) {
+        $("#courseIdHidden").val(courseId);
+        $("#studentSelect").html("");
+
+        $.get("/Class/GetAllStudentsNotInClass", function (students) {
+            students.forEach(s => {
+                $("#studentSelect").append(`<option value="${s.studentId}">${s.name}</option>`);
+            });
+            $("#assignStudentModal").show();
+        });
+    }
+    function assignStudentToCourse(studentId, courseId) {
+        console.log("📤 Sending to backend:", {
+            studentId: studentId,
+            courseId: courseId
+        });
+
+        $.ajax({
+            url: "/Courses/AssignStudentToCourse",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                studentId: studentId,
+                courseId: courseId
+            }),
+            success: function (res) {
+                console.log("✅ Response:", res);
+                alert(res.message);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error("❌ AJAX Error:", status, error);
+                console.log("❌ Response:", xhr.responseText);
+                alert("Error assigning student.");
+            }
+        });
+    }
+
+
+    function assignStudent() {
+        const model = {
+            studentId: $("#studentSelect").val(),
+            courseId: $("#courseIdHidden").val()
+        };
+
+        $.ajax({
+            url: "/Courses/AssignStudentToCourse",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(model),
+            success: function (res) {
+                alert(res.message);
+                $("#assignStudentModal").hide();
+            },
+            error: function () {
+                alert("Error assigning student.");
+            }
+        });
+    }
+    function removeStudent(studentId, courseId) {
+        if (!confirm("Are you sure you want to remove this student from the course?")) return;
+
+        $.ajax({
+            url: "/Courses/RemoveStudentFromCourse",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ studentId: studentId, courseId: courseId }),
+            success: function (res) {
+                alert(res.message);
+                location.reload();
+            },
+            error: function () {
+                alert("Error removing student.");
+            }
+        });
+    }
+
+
+</script>

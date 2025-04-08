@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "User Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -176,156 +176,20 @@
     <div class="logo">
         <img src="~/images/screenshot 2025-04-01 114816.png" alt="FPT Logo" height="540">
     </div>
-    <button class="btn btn-primary mb-3" onclick="showAddUserForm()">Add User</button>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date of Birth</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="userTable"></tbody>
-        </table>
-    </div>
+    
 </div>
 
 <!-- Form thêm/sửa User -->
-<div id="userFormModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <h4 id="formTitle">Add User</h4>
-        <input type="hidden" id="userId">
-        <label>Name:</label>
-        <input type="text" id="userName" class="form-control">
-        <label>Email:</label>
-        <input type="text" id="userEmail" class="form-control">
-        <label>Phone:</label>
-        <input type="text" id="userPhone" class="form-control">
-        <label>Date of Birth:</label>
-        <input type="date" id="userDob" class="form-control">
-        <button onclick="saveUser()" class="btn btn-success mt-2">Save</button>
-        <button onclick="closeModal()" class="btn btn-secondary mt-2">Cancel</button>
-    </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        loadUsers();
-    });
+    
 
-    function loadUsers() {
-        $.get("/User/GetUsers", function (data) {
-            if (data.success) {
-                let rows = "";
-                data.users.forEach(user => {
-                    rows += `<tr>
-                                    <td>${user.id}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.phone}</td>
-                                    <td>${user.dateOfBirth}</td>
-                                    <td>
-                                        <button class="btn btn-warning" onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.phone}', '${user.dateOfBirth}')">Edit</button>
-                                        <button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>
-                                    </td>
-                                </tr>`;
-                });
-                $("#userTable").html(rows);
-            }
-        });
-    }
+    
 
-    function showAddUserForm() {
-        $("#formTitle").text("Add User");
-        $("#userId").val("");
-        $("#userName").val("");
-        $("#userEmail").val("");
-        $("#userPhone").val("");
-        $("#userDob").val("");
-        $("#userFormModal").show();
-    }
-
-    function editUser(id, name, email, phone, dob) {
-        $("#formTitle").text("Edit User");
-        $("#userId").val(id);
-        $("#userName").val(name);
-        $("#userEmail").val(email);
-        $("#userPhone").val(phone);
-        $("#userDob").val(dob);
-        $("#userFormModal").show();
-    }
-
-    function saveUser() {
-        const user = {
-            id: $("#userId").val() || 0,  // Mặc định id = 0 nếu thêm mới
-            name: $("#userName").val(),
-            email: $("#userEmail").val(),
-            phone: $("#userPhone").val(),
-            dateOfBirth: $("#userDob").val()
-        };
-
-        $.ajax({
-            url: user.id ? "/User/UpdateUser" : "/User/AddUser",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(user),
-            success: function (response) {
-                if (response.success) {
-                    alert(response.message); // Hiển thị thông báo
-                    loadUsers(); // Tải lại danh sách
-                    closeModal();
-                } else {
-                    alert("Failed to save user!");
-                }
-            },
-            error: function () {
-                alert("Error while saving user!");
-            }
-        });
-    }
-
-    function deleteUser(id) {
-        if (!confirm("Are you sure you want to delete this user?")) return;
-
-        $.ajax({
-            url: "/User/DeleteUser",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ id: id }),
-            success: function (response) {
-                if (response.success) {
-                    alert(response.message);
-                    loadUsers();
-                } else {
-                    alert("Failed to delete user!");
-                }
-            },
-            error: function () {
-                alert("Error while deleting user!");
-            }
-        });
-    }
-
-    function closeModal() {
-        $("#userFormModal").hide();
-    }
-
-    $.ajax({
-        url: user.id ? "/User/UpdateUser" : "/User/AddUser",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(user),
-        success: function () {
-            loadUsers();
-            closeModal();
-        }
-    });
+    
 
 </script>
 

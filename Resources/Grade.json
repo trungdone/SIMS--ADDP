@@ -1,13 +1,5 @@
 [
   {
-    "StudentId": 1,
-    "StudentName": "Theo",
-    "Subject": "History",
-    "ClassName": "SE06304",
-    "Score": 100,
-    "Type": "Good"
-  },
-  {
     "StudentId": 2,
     "StudentName": "Thao",
     "Subject": "History",

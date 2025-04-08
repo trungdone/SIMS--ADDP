@@ -1,4 +1,4 @@
-﻿StudentId,Name,Age,Email,ClassId
+StudentId,Name,Age,Email,ClassId
 1,Nguyễn Văn An,20,nguyen.van.an@example.com,1
 2,Trần Thị Bình,21,tran.thi.binh@example.com,1
 3,Lê Văn Cường,19,le.van.cuong@example.com,1
@@ -14,16 +14,16 @@
 13,Lê Văn Sơn,19,le.van.son@example.com,2
 14,Phạm Thị Tuyết,22,pham.thi.tuyet@example.com,2
 15,Hoàng Văn Tuấn,20,hoang.van.tuan@example.com,2
-16,Vũ Thị Uyên,21,vu.thi.uyen@example.com,2
+16,Vũ Thị Uyên,21,vu.thi.uyen@example.com,4
 17,Đặng Văn Vinh,19,dang.van.vinh@example.com,2
-18,Bùi Thị Xuân,22,bui.thi.xuan@example.com,2
+18,Bùi Thị Xuân,22,bui.thi.xuan@example.com,4
 19,Mai Văn Yên,20,mai.van.yen@example.com,2
 20,Ngô Thị Ánh,21,ngo.thi.anh@example.com,2
-21,Nguyễn Văn Bảo,20,nguyen.van.bao@example.com,3
+21,Nguyễn Văn Bảo,20,nguyen.van.bao@example.com,2
 22,Trần Thị Châu,21,tran.thi.chau@example.com,3
-23,Lê Văn Dũng,19,le.van.dung@example.com,3
+23,Lê Văn Dũng,19,le.van.dung@example.com,2
 24,Phạm Thị Hạnh,22,pham.thi.hanh@example.com,3
-25,Hoàng Văn Khôi,20,hoang.van.khoi@example.com,3
+25,Hoàng Văn Khôi,20,hoang.van.khoi@example.com,2
 26,Vũ Thị Linh,21,vu.thi.linh@example.com,3
 27,Đặng Văn Mạnh,19,dang.van.manh@example.com,3
 28,Bùi Thị Ngọc,22,bui.thi.ngoc@example.com,3

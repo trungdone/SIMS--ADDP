@@ -45,7 +45,7 @@
     "Id": 4,
     "ClassId": 4,
     "Name": "Biology 106",
-    "CourseId": 2,
+    "CourseId": 1,
     "Students": [
       {
         "Id": 5,
@@ -166,14 +166,6 @@
       }
     ],
     "StudentId": 10
-  },
-  {
-    "Id": 10,
-    "ClassId": 0,
-    "Name": "11",
-    "CourseId": 9,
-    "Students": [],
-    "StudentId": 0
   },
   {
     "Id": 11,
